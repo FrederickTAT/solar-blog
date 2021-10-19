@@ -1,21 +1,28 @@
-import { Component } from 'react';
-import logo from './logo.svg';
+import { FC, Suspense } from 'react';
 import './App.css';
+import { Route, Switch, BrowserRouter } from 'react-router-dom';
+import PageConfig, { PageConfigProps } from './router';
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
-    );
-  }
-}
+const App: FC = () => {
+  const getRoutes = (pageConfigs: PageConfigProps[]) => {
+    const configQueue = [...pageConfigs];
+    const routes: JSX.Element[] = [];
+    while (configQueue.length) {
+      const config = configQueue.shift();
+      routes.push(<Route {...config} />);
+    }
+    return routes;
+  };
+
+  return (
+    <div className="App">
+      <BrowserRouter>
+        <Suspense fallback={<div>Loading...</div>}>
+          <Switch>{getRoutes(PageConfig)}</Switch>
+        </Suspense>
+      </BrowserRouter>
+    </div>
+  );
+};
 
 export default App;
