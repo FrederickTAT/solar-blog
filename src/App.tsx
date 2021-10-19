@@ -2,6 +2,7 @@ import { FC, Suspense } from 'react';
 import './App.css';
 import { Route, Switch, BrowserRouter } from 'react-router-dom';
 import PageConfig, { PageConfigProps } from './router';
+import NavBar from './components/navbar';
 
 const App: FC = () => {
   const getRoutes = (pageConfigs: PageConfigProps[]) => {
@@ -16,6 +17,7 @@ const App: FC = () => {
 
   return (
     <div className="App">
+      <NavBar />
       <BrowserRouter>
         <Suspense fallback={<div>Loading...</div>}>
           <Switch>{getRoutes(PageConfig)}</Switch>

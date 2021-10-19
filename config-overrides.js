@@ -1,20 +1,24 @@
 /* eslint-disable */
 const path = require('path');
+const { override, addLessLoader, addWebpackAlias } = require('customize-cra');
+const rewireTypingsForCssModule = require('react-app-rewire-typings-for-css-module');
 
 function resolve(dir) {
   return path.join(__dirname, '.', dir);
 }
 
-/* config-overrides.js */
-module.exports = function override(config, env) {
-  //do stuff with the webpack config...
-  // alias
-  config.resolve.alias = {
-    ...config.resolve.alias,
+module.exports = override(
+  addLessLoader({
+    strictMath: true,
+    noIeCompat: true,
+  }),
+  addWebpackAlias({
     '@root': resolve('src'),
     '@components': resolve('src/components'),
     '@pages': resolve('src/pages'),
-  };
-  config.resolve.extensions = ['.js', '.jsx', '.json', '.ts', '.tsx'];
-  return config;
-};
+  }),
+  (config, env) => {
+    config = rewireTypingsForCssModule(config);
+    return config;
+  }
+);
