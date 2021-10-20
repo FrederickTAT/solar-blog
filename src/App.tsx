@@ -1,5 +1,5 @@
 import { FC, Suspense } from 'react';
-import './App.css';
+import Styles from './App.module.less';
 import { Route, Switch, BrowserRouter } from 'react-router-dom';
 import PageConfig, { PageConfigProps } from './router';
 import NavBar from './components/navbar';
@@ -16,11 +16,13 @@ const App: FC = () => {
   };
 
   return (
-    <div className="App">
+    <div className={Styles.app}>
       <NavBar />
       <BrowserRouter>
         <Suspense fallback={<div>Loading...</div>}>
-          <Switch>{getRoutes(PageConfig)}</Switch>
+          <Switch>
+            <div className={Styles.content}>{getRoutes(PageConfig)}</div>
+          </Switch>
         </Suspense>
       </BrowserRouter>
     </div>
