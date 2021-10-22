@@ -1,70 +1,12 @@
 import debounce from '@material-ui/utils/debounce';
-import { throttle } from 'lodash';
-import { FC, useEffect, useMemo, useRef, useState } from 'react';
+import { throttle, transform } from 'lodash';
+import { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Styles from './index.module.less';
 
 const NavBar: FC = () => {
   const ref = useRef<HTMLDivElement>(null);
-  const minHeight = 50;
+  const minHeight = 60;
   const maxHeight = 600;
-  const ER = 10; // EarthRadius
-  const solarPos = -850;
-  const solarRaduis = 1000;
-  const [mode, setMode] = useState('fit');
-
-  const getAU = () => {
-    return (window.innerWidth - solarRaduis - solarPos) / 35;
-  };
-
-  const [AU, setAU] = useState<number>(getAU());
-  const [abbr, setAbbr] = useState(window.innerWidth < 1000);
-
-  const SolarySystem = useMemo(
-    () =>
-      [
-        {
-          name: 'MERCURY',
-          oribit: 0.38709 * AU,
-          radius: 0.3825 * ER,
-        },
-        {
-          name: 'VENUS',
-          oribit: 0.72332 * AU,
-          radius: 0.9488 * ER,
-        },
-        {
-          name: 'EARTH',
-          oribit: AU,
-          radius: ER,
-        },
-        {
-          name: 'MARS',
-          oribit: 1.52366 * AU,
-          radius: 0.53226 * ER,
-        },
-        {
-          name: 'JUPITER',
-          oribit: 5.20336 * AU,
-          radius: 11.209 * ER,
-        },
-        {
-          name: 'SATURN',
-          oribit: 9.53707 * AU,
-          radius: 9.449 * ER,
-        },
-        {
-          name: 'URANUS',
-          oribit: 19.19126 * AU,
-          radius: 4.007 * ER,
-        },
-        {
-          name: 'NEPTUNE',
-          oribit: 30 * AU,
-          radius: ER,
-        },
-      ].map(planet => ({ ...planet, name: abbr ? planet.name.substr(0, 3) : planet.name })),
-    [AU, abbr]
-  );
 
   const getNavbarHeight = () => {
     const scrollTop = document.documentElement.scrollTop;
@@ -94,34 +36,43 @@ const NavBar: FC = () => {
     window.addEventListener('scroll', () => {
       setNavbarRef.current(getNavbarHeight());
     });
-    window.addEventListener('resize', () => {
-      setAU(getAU());
-
-      setAbbr(window.innerWidth < 1000);
-    });
   }, []);
 
-  const Planet: FC<{ name: string; radius: number; oribit: number }> = ({ radius, name, oribit }) => {
+  const Planet: FC<{ name: string; radius: number }> = ({ radius, name }) => {
+    const fontSize = 18;
+    const labelWidth = fontSize * name.length;
+    const unitSize = 9;
+    const planetRef = useRef<HTMLDivElement>(null);
+    const globalRef = useRef<HTMLDivElement>(null);
+    const tagRef = useRef<HTMLDivElement>(null);
+    const sphereRef = useRef<HTMLDivElement>(null);
+    useEffect(() => {
+      window.addEventListener('scroll', () => {
+        const planetHeight = planetRef.current?.getBoundingClientRect().height;
+        if (!planetHeight) return;
+        const ratio = (planetHeight - 60) / 540 < 0.01 ? 0 : (planetHeight - 60) / 540;
+        console.log(ratio);
+        const globalStyle = globalRef.current?.style;
+        if (sphereRef.current && tagRef.current) {
+          sphereRef.current.style.opacity = `${ratio}`;
+          sphereRef.current.style.transform = `translateY(-${50 * (1 - ratio)}%)`;
+          tagRef.current.style.opacity = `${1 - ratio}`;
+          tagRef.current.style.bottom = `calc(${50 * (1 - ratio)}% + ${8 * (1 - ratio)}px)`;
+        }
+      });
+    }, []);
     return (
-      <div className={Styles.planet} style={{ left: oribit - solarRaduis }}>
-        <div
-          className={Styles.oribit}
-          style={{
-            width: 2 * oribit,
-            height: 2 * oribit,
-            left: `calc(50% - ${oribit}px)`,
-          }}
-        />
-        {/* <div
-          className={Styles.boundary}
-          style={{
-            width: 65 + radius,
-            height: 65 + radius,
-          }}
-        /> */}
-        <div className={Styles.global}>
-          <div className={Styles.sphere} style={{ width: radius, height: radius }}></div>
-          <div className={Styles.tagName}>{name}</div>
+      <div ref={planetRef} className={Styles.planet} style={{ minWidth: labelWidth }}>
+        <div className={Styles.oribit} />
+        <div ref={globalRef} className={Styles.global} style={{ width: labelWidth }}>
+          <div
+            className={Styles.sphere}
+            ref={sphereRef}
+            style={{ width: radius * unitSize, height: radius * unitSize }}
+          ></div>{' '}
+          <div className={Styles.tag} ref={tagRef} style={{ fontSize }}>
+            {name}
+          </div>
         </div>
       </div>
     );
@@ -129,17 +80,20 @@ const NavBar: FC = () => {
 
   return (
     <div ref={ref} className={Styles.navbar} id="navbar">
-      {/* <div className={Styles.axis} /> */}
-      <div className={Styles.stars}>
-        <div className={Styles.solar} style={{ left: solarPos, width: solarRaduis * 2, height: solarRaduis * 2 }}></div>
-        <div className={Styles.planets} style={{ left: solarRaduis + solarPos + 6 }}>
-          {SolarySystem.map((planet, index) => (
-            <Planet
-              key={planet.name}
-              {...planet}
-              oribit={mode === 'fit' ? solarRaduis + (index + 1) * AU * 4 : planet.oribit}
-            />
-          ))}
+      <div className={Styles.axis} />
+      <div className={Styles.stars} style={{ left: -1000 }}>
+        <div className={Styles.solar}>
+          <span className={Styles.tag}>SOLAR</span>
+        </div>
+        <div className={Styles.planets}>
+          <Planet name="MERCURY" radius={0.38}></Planet>
+          <Planet name="VENUS" radius={0.94}></Planet>
+          <Planet name="EARTH" radius={1}></Planet>
+          <Planet name="MARS" radius={0.53}></Planet>
+          <Planet name="JUPITER" radius={11.21}></Planet>
+          <Planet name="SATURN" radius={9.45}></Planet>
+          <Planet name="URANUS" radius={4.01}></Planet>
+          <Planet name="NEPTUNE" radius={3.88}></Planet>
         </div>
       </div>
     </div>

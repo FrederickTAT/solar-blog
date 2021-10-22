@@ -8,6 +8,7 @@
   z-index: 1000;
   min-width: 600px;
   box-shadow: 0 0 20px #ddd;
+  font-family: 'Azonix';
 
   > .axis {
     position: absolute;
@@ -16,104 +17,90 @@
     height: 1px;
     background-color: black;
   }
+}
 
-  > .stars {
-    height: 100%;
-
-    > .planets {
-      height: 100%;
-      position: absolute;
-      right: 0;
-      // border: 1px solid black;
-      display: flex;
-      align-items: flex-end;
-
-      > .planet {
-        height: 100%;
-        position: absolute;
-        z-index: 10;
-        transform: translateX(-50%);
-        cursor: pointer;
-        min-width: 70px;
-        &:hover {
-          > .global {
-            > .sphere {
-              transform: scale(1.5);
-              transition-duration: 0.5s;
-            }
-          }
-          > .oribit {
-            opacity: 1;
-            transition-duration: 0.5s;
-          }
-        }
-        > .oribit {
-          opacity: 0.1;
-          position: absolute;
-          border-radius: 50%;
-          bottom: calc(50% + 26px);
-          width: 10px;
-          height: 10px;
-          border: 2px solid gray;
-          z-index: -1;
-          transform: translateY(50%) translateX(-50%);
-          pointer-events: none;
-        }
-
-        > .boundary {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          border-radius: 50%;
-
-          z-index: -1;
-          transform: translateY(-50%) translateX(-50%);
-          background-color: white;
-        }
-
-        > .global {
-          top: 50%;
-          transform: translateY(-100%) translateY(26px);
-          position: relative;
-          z-index: 10;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: space-between;
-          font-size: 20px;
-
-          > .sphere {
-            position: relative;
-            border: 3px solid #555;
-            box-shadow: 0 0 5px #888;
-            border-radius: 50%;
-            margin-bottom: 0;
-            z-index: 5;
-            background-color: white;
-          }
-
-          > .tagName {
-            position: relative;
-            padding: 20px 8px 12px 8px;
-            border: 1px solid white;
-            background-color: white;
-
-            z-index: 3;
-          }
-        }
-      }
-    }
-
-    > .solar {
-      z-index: 10;
+.stars {
+  position: absolute;
+  height: 100%;
+  left: -1000px;
+  right: 0;
+  display: flex;
+  align-items: center;
+  transition: all 1s;
+  > .solar {
+    position: relative;
+    width: calc(900px + 13%);
+    height: 0;
+    padding-bottom: calc(900px + 13%);
+    border: 1px solid black;
+    border-radius: 50%;
+    > .tag {
       position: absolute;
       top: 50%;
-      transform: translateX(-50%) translateY(-50%);
-      overflow: hidden;
-      background-color: white;
-      border-radius: 50%;
-      border: 6px solid #555;
-      box-shadow: -10px 0 30px #555;
+      left: 1000px;
+      right: 0;
+      text-align: center;
+      border: 1px solid black;
+      font-size: 36px;
+      transform: translateY(-50%);
     }
+  }
+
+  > .planets {
+    position: relative;
+    padding-left: 16px;
+    height: 100%;
+    width: calc(87% - 900px);
+    border: 1px solid black;
+    display: flex;
+    justify-content: space-around;
+    overflow: hidden;
+  }
+}
+
+.planet {
+  position: relative;
+  padding: 0 5px;
+  border: 1px solid red;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 1s;
+  width: 100%;
+  > .global {
+    pointer-events: none;
+    position: absolute;
+    left: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    transition: all 0.5s;
+    transform: translateX(-50%);
+    > .sphere {
+      border: 1px solid blue;
+      border-radius: 50%;
+    }
+    > .tag {
+      position: absolute;
+      bottom: -16px;
+      opacity: 0;
+      transition: height 0.5s, opacity 0.1s;
+      text-align: center;
+      height: 0;
+    }
+    border: 1px solid green;
+  }
+  &:hover {
+    > .global {
+      left: 10px;
+      transform: translateX(0);
+      > .tag {
+        height: 16px;
+        opacity: 1 !important;
+        bottom: -16px !important;
+      }
+    }
+    width: 300% !important;
   }
 }
