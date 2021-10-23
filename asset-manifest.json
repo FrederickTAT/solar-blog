@@ -1,0 +1,33 @@
+{
+  "files": {
+    "main.css": "/solar-blog/static/css/main.12dba178.chunk.css",
+    "main.js": "/solar-blog/static/js/main.4c72bccf.chunk.js",
+    "main.js.map": "/solar-blog/static/js/main.4c72bccf.chunk.js.map",
+    "runtime-main.js": "/solar-blog/static/js/runtime-main.5b7f9848.js",
+    "runtime-main.js.map": "/solar-blog/static/js/runtime-main.5b7f9848.js.map",
+    "static/css/2.aa2aaaf0.chunk.css": "/solar-blog/static/css/2.aa2aaaf0.chunk.css",
+    "static/js/2.0c24a002.chunk.js": "/solar-blog/static/js/2.0c24a002.chunk.js",
+    "static/js/2.0c24a002.chunk.js.map": "/solar-blog/static/js/2.0c24a002.chunk.js.map",
+    "static/js/3.bbb55864.chunk.js": "/solar-blog/static/js/3.bbb55864.chunk.js",
+    "static/js/3.bbb55864.chunk.js.map": "/solar-blog/static/js/3.bbb55864.chunk.js.map",
+    "static/js/4.7c383b80.chunk.js": "/solar-blog/static/js/4.7c383b80.chunk.js",
+    "static/js/4.7c383b80.chunk.js.map": "/solar-blog/static/js/4.7c383b80.chunk.js.map",
+    "index.html": "/solar-blog/index.html",
+    "static/css/2.aa2aaaf0.chunk.css.map": "/solar-blog/static/css/2.aa2aaaf0.chunk.css.map",
+    "static/css/main.12dba178.chunk.css.map": "/solar-blog/static/css/main.12dba178.chunk.css.map",
+    "static/js/2.0c24a002.chunk.js.LICENSE.txt": "/solar-blog/static/js/2.0c24a002.chunk.js.LICENSE.txt",
+    "static/js/3.bbb55864.chunk.js.LICENSE.txt": "/solar-blog/static/js/3.bbb55864.chunk.js.LICENSE.txt",
+    "static/media/index.css": "/solar-blog/static/media/Azonix.9091792c.otf",
+    "static/media/300.css": "/solar-blog/static/media/roboto-vietnamese-300-normal.af9afdc1.woff2",
+    "static/media/400.css": "/solar-blog/static/media/roboto-vietnamese-400-normal.c0bec65d.woff2",
+    "static/media/500.css": "/solar-blog/static/media/roboto-vietnamese-500-normal.b8e494da.woff2",
+    "static/media/700.css": "/solar-blog/static/media/roboto-vietnamese-700-normal.3096f18a.woff2"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.5b7f9848.js",
+    "static/css/2.aa2aaaf0.chunk.css",
+    "static/js/2.0c24a002.chunk.js",
+    "static/css/main.12dba178.chunk.css",
+    "static/js/main.4c72bccf.chunk.js"
+  ]
+}
