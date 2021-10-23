@@ -40,8 +40,13 @@ const NavBar: FC = () => {
 
   const Planet: FC<{ name: string; radius: number }> = ({ radius, name }) => {
     const fontSize = 18;
+    const sphereBorderWidth = 2;
+    const tagMargin = 8;
+    const bottomOffset = (tagMargin + sphereBorderWidth) / 2;
     const labelWidth = fontSize * name.length;
     const unitSize = 9;
+    const globalHeight = radius * unitSize + fontSize + tagMargin + 2 * sphereBorderWidth;
+
     const planetRef = useRef<HTMLDivElement>(null);
     const globalRef = useRef<HTMLDivElement>(null);
     const tagRef = useRef<HTMLDivElement>(null);
@@ -50,26 +55,38 @@ const NavBar: FC = () => {
       window.addEventListener('scroll', () => {
         const planetHeight = planetRef.current?.getBoundingClientRect().height;
         if (!planetHeight) return;
-        const ratio = (planetHeight - 60) / 540 < 0.01 ? 0 : (planetHeight - 60) / 540;
-        console.log(ratio);
+        const _ratio = (planetHeight - minHeight) / (maxHeight - minHeight);
+        const ratio = Math.max(_ratio - 0.01, 0);
         const globalStyle = globalRef.current?.style;
-        if (sphereRef.current && tagRef.current) {
+        if (globalStyle && sphereRef.current && tagRef.current) {
           sphereRef.current.style.opacity = `${ratio}`;
-          sphereRef.current.style.transform = `translateY(-${50 * (1 - ratio)}%)`;
-          tagRef.current.style.opacity = `${1 - ratio}`;
-          tagRef.current.style.bottom = `calc(${50 * (1 - ratio)}% + ${8 * (1 - ratio)}px)`;
+          globalStyle.height = `${ratio * globalHeight}px`;
+          globalStyle.transform = `translateY(${ratio * bottomOffset + fontSize / 2}px)`;
         }
       });
     }, []);
     return (
       <div ref={planetRef} className={Styles.planet} style={{ minWidth: labelWidth }}>
         <div className={Styles.oribit} />
-        <div ref={globalRef} className={Styles.global} style={{ width: labelWidth }}>
+        <div
+          ref={globalRef}
+          className={Styles.global}
+          style={{
+            height: globalHeight,
+            transform: `translateY(${fontSize / 2 + bottomOffset}px)`,
+          }}
+        >
           <div
             className={Styles.sphere}
             ref={sphereRef}
-            style={{ width: radius * unitSize, height: radius * unitSize }}
-          ></div>{' '}
+            style={{
+              borderWidth: sphereBorderWidth,
+              width: radius * unitSize,
+              height: radius * unitSize,
+              bottom: fontSize + tagMargin,
+            }}
+          ></div>
+          <div className={Styles.divider} style={{ bottom: fontSize / 2 }}></div>
           <div className={Styles.tag} ref={tagRef} style={{ fontSize }}>
             {name}
           </div>

@@ -6,7 +6,7 @@
   background-color: white;
   top: 0;
   z-index: 1000;
-  min-width: 600px;
+  min-width: 1100px;
   box-shadow: 0 0 20px #ddd;
   font-family: 'Azonix';
 
@@ -16,6 +16,7 @@
     width: 100%;
     height: 1px;
     background-color: black;
+    opacity: 0;
   }
 }
 
@@ -32,7 +33,7 @@
     width: calc(900px + 13%);
     height: 0;
     padding-bottom: calc(900px + 13%);
-    border: 1px solid black;
+    border: 2px solid #333;
     border-radius: 50%;
     > .tag {
       position: absolute;
@@ -40,7 +41,7 @@
       left: 1000px;
       right: 0;
       text-align: center;
-      border: 1px solid black;
+      // border: 1px solid black;
       font-size: 36px;
       transform: translateY(-50%);
     }
@@ -51,7 +52,7 @@
     padding-left: 16px;
     height: 100%;
     width: calc(87% - 900px);
-    border: 1px solid black;
+    // border: 1px solid black;
     display: flex;
     justify-content: space-around;
     overflow: hidden;
@@ -61,44 +62,61 @@
 .planet {
   position: relative;
   padding: 0 5px;
-  border: 1px solid red;
+  // border: 1px solid red;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 1s;
   width: 100%;
+  cursor: pointer;
   > .global {
+    width: 100%;
     pointer-events: none;
-    position: absolute;
-    left: 50%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-end;
     transition: all 0.5s;
-    transform: translateX(-50%);
     > .sphere {
-      border: 1px solid blue;
+      position: absolute;
+      border: 1px solid;
+      border-color: #555;
       border-radius: 50%;
+      opacity: 1;
+      transition: all 0.3s ease-out;
     }
     > .tag {
-      position: absolute;
-      bottom: -16px;
-      opacity: 0;
-      transition: height 0.5s, opacity 0.1s;
+      position: relative;
+      opacity: 1;
+      transition: all 0.5s;
       text-align: center;
-      height: 0;
+      padding: 0 3%;
+      z-index: 5;
+      background-color: white;
     }
-    border: 1px solid green;
+    > .divider {
+      position: absolute;
+      border: 1px solid #ddd;
+      left: 0;
+      right: 0;
+      z-index: 2;
+      opacity: 0;
+      transition: all 0.5s;
+    }
+    // border: 1px solid green;
   }
   &:hover {
     > .global {
-      left: 10px;
-      transform: translateX(0);
+      height: 18px !important;
+      transform: translateY(0) !important;
+      > .sphere {
+        opacity: 0 !important;
+      }
       > .tag {
-        height: 16px;
-        opacity: 1 !important;
-        bottom: -16px !important;
+        transform: scale(1.5);
+      }
+      > .divider {
+        opacity: 1;
       }
     }
     width: 300% !important;
